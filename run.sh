@@ -1,5 +1,4 @@
 #!/bin/bash
-#!/bin/bash
 
 LOG_FILE=/dev/shm/last_10_vpn_attempts.log
 RECEIPIENT=$PHONE_NUMBER
