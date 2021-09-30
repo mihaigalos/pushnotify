@@ -1,0 +1,17 @@
+version: "3.3"
+services:
+  alert:
+    image: ghcr.io/mihaigalos/alert:0.0.1
+    network_mode: "host"
+    environment:
+      - CATAPUSH_TOKEN=$CATAPUSH_TOKEN
+      - HISTFILE=/root/.docker_history
+      - PHONE_NUMBER=$PHONE_NUMBER
+    volumes:
+      - /etc/machine-id:/etc/machine-id:ro
+      - /run/log/journal:/run/log/journal:ro
+      - /var/log/journal:/var/log/journal:ro
+      - ~/.docker_history:/root/.docker_history
+    ports:
+      - 2222:2222
+    restart: unless-stopped
