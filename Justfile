@@ -13,6 +13,5 @@ build_docker:
 # run a docker with access to journalctl entries
 run:
     #!/bin/bash
-    #docker run --rm -it --network host -v /run/log/journal:/run/log/journal:ro -v /etc/machine-id:/etc/machine-id:ro -v /var/log/journal:/var/log/journal:ro {{docker_image}} /bin/bash
     touch ~/.history_make_shell
     docker-compose run --rm {{tool}} /bin/bash
