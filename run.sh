@@ -2,14 +2,14 @@
 
 LOG_FILE=/dev/shm/last_10_vpn_attempts.log
 RECEIPIENT=$PHONE_NUMBER
-TOKEN=$CATAPUSH_TOKEN
+CATAPUSH_TOKEN=$CATAPUSH_TOKEN
 
 function send_notification(){
     message=$@
     curl --request POST \
       --url https://api.catapush.com/1/messages \
       --header 'Accept: application/json' \
-      --header 'Authorization: Bearer '"$TOKEN"'' \
+      --header 'Authorization: Bearer '"$CATAPUSH_TOKEN"'' \
       --header 'Content-Type: application/json' \
       --data '{"mobileAppId":318,"text":"'"$message"'","recipients":[{"identifier":"'"$RECEIPIENT"'"}]}'
 }
