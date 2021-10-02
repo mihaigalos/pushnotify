@@ -1,7 +1,7 @@
 default:
   @just --list
 
-tool := "alert"
+tool := "pushnotify"
 docker_container_registry := "ghcr.io"
 docker_user_repo := "mihaigalos"
 docker_image_version := "0.0.1"
@@ -9,10 +9,9 @@ docker_image := docker_container_registry + "/" + docker_user_repo + "/" + tool+
 
 build platform="linux/arm64":
     #! /bin/bash
-    cd src
     platform_short=$(echo {{platform}} | cut -d '/' -f2)
     output={{tool}}_${platform_short}
-    docker buildx build --platform {{platform}} -t {{docker_image}}  --output "type=oci,dest=${output}.tar" . && gzip ${output}.tar
+    docker buildx build --platform {{platform}} -t {{docker_image}}  --output "type=oci,dest=${output}.tar" src/ && gzip ${output}.tar
 
 # Install docker buildx and other goodies for multi arch deployment.
 setup:
