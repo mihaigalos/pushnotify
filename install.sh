@@ -1,6 +1,6 @@
 #!/bin/bash
-
-source /home/$SUDO_USER/.profile
+set -x
+[[ ! -z "$SUDO_USER" ]] && source /home/$SUDO_USER/.profile
 if [[ -z "$CATAPUSH_TOKEN" || -z "$PHONE_NUMBER" ]]; then
      cat <<EOT
      ERROR: Variables not set.
@@ -12,5 +12,5 @@ EOT
 fi
 
 cat <<EOF >>/var/spool/cron/crontabs/root
-*/15 * * * * /bin/bash -c "source /home/$SUDO_USER/.profile && $(realpath run.sh)"
+*/15 * * * * /bin/bash -il -c "$(realpath run.sh)  > /dev/null 2>&1"
 EOF

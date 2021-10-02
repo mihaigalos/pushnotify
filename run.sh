@@ -1,8 +1,9 @@
 #!/bin/bash
 
+CATAPUSH_TOKEN=$CATAPUSH_TOKEN
 LOG_FILE=/dev/shm/last_10_vpn_attempts.log
 RECEIPIENT=$PHONE_NUMBER
-CATAPUSH_TOKEN=$CATAPUSH_TOKEN
+RUN_FREQUENCY_SECONDS=900
 
 function send_notification(){
     message=$@
@@ -24,8 +25,14 @@ function get_last_unique_vpn_connections(){
     sudo journalctl --boot --lines=all | grep "ovpn-server[[]" | grep "Peer Connection Initiated" | tail -10 > ${LOG_FILE}_new
 }
 
-touch $LOG_FILE
-get_last_unique_vpn_connections
-diff=$(diff ${LOG_FILE} ${LOG_FILE}_new)
-[ $(echo $diff | wc -w) -gt 0 ] && handle_new_vpn_connections_detected $diff || echo "No new VPN connections."
-cp ${LOG_FILE}_new ${LOG_FILE}
+
+function main(){
+    touch $LOG_FILE
+    get_last_unique_vpn_connections
+    diff=$(diff ${LOG_FILE} ${LOG_FILE}_new)
+    [ $(echo $diff | wc -w) -gt 0 ] && handle_new_vpn_connections_detected $diff || echo "No new VPN connections."
+    cp ${LOG_FILE}_new ${LOG_FILE}
+    sleep $RUN_FREQUENCY_SECONDS
+}
+
+while :; do main; done # Poor man's cron, since :ro on journal files and cron cannot write

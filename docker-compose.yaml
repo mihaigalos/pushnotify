@@ -12,6 +12,7 @@ services:
       - /run/log/journal:/run/log/journal:ro
       - /var/log/journal:/var/log/journal:ro
       - ~/.docker_history:/root/.docker_history
+      - .:/src
     ports:
       - 2222:2222
     restart: unless-stopped
