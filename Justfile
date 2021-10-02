@@ -7,7 +7,7 @@ docker_user_repo := "mihaigalos"
 docker_image_version := "0.0.1"
 docker_image := docker_container_registry + "/" + docker_user_repo + "/" + tool+ ":" + docker_image_version
 
-build platform="linux/amd64":
+build platform="linux/arm64":
     #! /bin/bash
     platform_short=$(echo {{platform}} | cut -d '/' -f2)
     output={{tool}}_${platform_short}
