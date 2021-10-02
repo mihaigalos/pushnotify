@@ -2,7 +2,7 @@
 
 CATAPUSH_TOKEN=$CATAPUSH_TOKEN
 LOG_FILE=/dev/shm/last_10_vpn_attempts.log
-RECEIPIENT=$PHONE_NUMBER
+RECIPIENT=$PHONE_NUMBER
 RUN_FREQUENCY_SECONDS=900
 
 function send_notification(){
@@ -12,7 +12,7 @@ function send_notification(){
       --header 'Accept: application/json' \
       --header 'Authorization: Bearer '"$CATAPUSH_TOKEN"'' \
       --header 'Content-Type: application/json' \
-      --data '{"mobileAppId":318,"text":"'"$message"'","recipients":[{"identifier":"'"$RECEIPIENT"'"}]}'
+      --data '{"mobileAppId":318,"text":"'"$message"'","recipients":[{"identifier":"'"$RECIPIENT"'"}]}'
 }
 
 function handle_new_vpn_connections_detected(){
