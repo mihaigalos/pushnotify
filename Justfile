@@ -14,4 +14,5 @@ build_docker:
 run:
     #!/bin/bash
     touch ~/.history_make_shell
+    source ~/.profile
     docker-compose run --rm {{tool}} /bin/bash
