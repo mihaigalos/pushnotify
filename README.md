@@ -8,6 +8,7 @@ A REST notification service (i.e. [Catapush](https://www.catapush.com/)) can be 
 
 ### Prerequisites
 
+[`docker-compose`](https://github.com/docker/compose).
 [`just`](https://github.com/casey/just).
 
 ### Install
