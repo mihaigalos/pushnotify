@@ -11,7 +11,7 @@ A REST notification service (i.e. [Catapush](https://www.catapush.com/)) can be 
 * [`docker-compose`](https://github.com/docker/compose)
 * [`just`](https://github.com/casey/just)
 * environment variables set in ~/.profile
-    * export PHONE_NUMBER=431234567890
+    * export PHONE_NUMBER=431234567890 (first 2 digits: country code. 43 for Austria).
     * export CATAPUSH_TOKEN=abcdefgh
 
 ### Install
