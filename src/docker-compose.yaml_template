@@ -1,7 +1,7 @@
 version: "3.3"
 services:
-  alert:
-    image: ghcr.io/mihaigalos/alert:0.0.1
+  pushnotify:
+    image: {{image}}
     network_mode: "host"
     environment:
       - CATAPUSH_TOKEN=$CATAPUSH_TOKEN
