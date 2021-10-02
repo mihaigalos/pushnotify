@@ -1,3 +1,4 @@
 *.swp
-pushnotify*.tar.gz
 pushnotify*.tar
+pushnotify*.tar.gz
+src/docker-compose.yaml
