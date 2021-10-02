@@ -23,6 +23,8 @@ function handle_new_vpn_connections_detected(){
 function get_last_unique_vpn_connections(){
     sudo journalctl --boot --lines=all | grep "ovpn-server[[]" | grep "Peer Connection Initiated" | tail -10 > ${LOG_FILE}_new
 }
+
+touch $LOG_FILE
 get_last_unique_vpn_connections
 diff=$(diff ${LOG_FILE} ${LOG_FILE}_new)
 [ $(echo $diff | wc -w) -gt 0 ] && handle_new_vpn_connections_detected $diff || echo "No new VPN connections."
