@@ -31,11 +31,15 @@ setup:
     docker buildx inspect --bootstrap
 
 # run a docker with access to journalctl entries
-run:
+run docker_compose_args="--rm":
     #!/bin/bash
 
     sed -e "s|{{{{image}}|{{docker_image}}|" src/docker-compose.yaml_template > src/docker-compose.yaml
     touch ~/.history_make_shell
     source ~/.profile
     cd src
-    docker-compose run --rm {{tool}} /bin/bash
+    docker-compose run {{docker_compose_args}} {{tool}} /bin/bash
+
+# stop a running instance of daemon
+stop:
+    cd src && docker-compose down

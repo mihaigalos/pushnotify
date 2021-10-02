@@ -29,6 +29,13 @@ just build linux/amd64
 just run
 ```
 
+By default, a TTY will be allocated and pushnotify will run in foreground.
+To run in daemon mode (background):
+
+```bash
+just run -d
+```
+
 ### Screenshots
 ![alt text](screenshots/demo.png)
 
