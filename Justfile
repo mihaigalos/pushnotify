@@ -33,7 +33,8 @@ setup:
 # run a docker with access to journalctl entries
 run:
     #!/bin/bash
-    sed -e "s/{{{{image}}/ghcr.io\/mihaigalos\/pushnotify:0.0.1/" src/docker-compose.yaml_template > src/docker-compose.yaml
+
+    sed -e "s|{{{{image}}|{{docker_image}}|" src/docker-compose.yaml_template > src/docker-compose.yaml
     touch ~/.history_make_shell
     source ~/.profile
     cd src
