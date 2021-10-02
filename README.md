@@ -22,5 +22,11 @@ For `amd64`:
 just build linux/amd64
 ```
 
+### Running
+
+```bash
+just run
+```
+
 ### Screenshots
 ![alt text](screenshots/demo.png)
