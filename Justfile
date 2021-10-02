@@ -9,6 +9,7 @@ docker_image := docker_container_registry + "/" + docker_user_repo + "/" + tool+
 
 build platform="linux/arm64":
     #! /bin/bash
+    cd src
     platform_short=$(echo {{platform}} | cut -d '/' -f2)
     output={{tool}}_${platform_short}
     docker buildx build --platform {{platform}} -t {{docker_image}}  --output "type=oci,dest=${output}.tar" . && gzip ${output}.tar
@@ -35,4 +36,5 @@ run:
     #!/bin/bash
     touch ~/.history_make_shell
     source ~/.profile
+    cd src
     docker-compose run --rm {{tool}} /bin/bash
