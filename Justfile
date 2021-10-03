@@ -27,7 +27,7 @@ setup:
 
     sudo apt-get install -y jq
     mkdir -p ~/.docker/cli-plugins
-    BUILDX_URL=$(curl https://api.github.com/repos/docker/buildx/releases/latest |  jq  '.assets[].browser_download_url' | grep linux-arm64)
+    BUILDX_URL=$(curl https://api.github.com/repos/docker/buildx/releases/latest | jq '.assets[].browser_download_url' | grep linux-arm64)
     wget $BUILDX_URL -O ~/.docker/cli-plugins/docker-build
     chmod +x ~/.docker/cli-plugins/docker-buildx
 
