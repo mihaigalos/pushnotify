@@ -39,6 +39,11 @@ To run in daemon mode (background):
 just run -d
 ```
 
+### Extending
+
+To extend, just write your own handler (`function handler_<handler_name>`)in the `push.sh`.
+It will automatically be called by the logic.
+
 ### Screenshots
 ![alt text](screenshots/demo.png)
 

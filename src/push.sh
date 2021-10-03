@@ -23,11 +23,13 @@ function handler_vpn(){
 }
 
 function main(){
-    for handler in handler_vpn; # extend with further handlers as needed
+    current_file=$0
+    for handler in $(grep function $current_file | cut -d' ' -f2 | cut -d "(" -f1 | grep handler_);
     do
-        log=${LOG_FILE_PREFIX}_${handler}
-        touch ${log} && $handler ${log}
-        cp ${log}_new ${log}
+       echo $handler
+       log=${LOG_FILE_PREFIX}_${handler}
+       touch ${log} && $handler ${log}
+       cp ${log}_new ${log}
     done
     sleep $RUN_FREQUENCY_SECONDS # Poor man's cron, since :ro on journal files and cron cannot write
 }
