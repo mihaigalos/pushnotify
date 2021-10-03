@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CATAPUSH_TOKEN=$CATAPUSH_TOKEN
-LOG_FILE_PREFIX=/dev/shm/last_10_vpn_attempts.log
+LOG_FILE_PREFIX=/dev/shm/pushnotify.log
 RECIPIENT=$PHONE_NUMBER
 RUN_FREQUENCY_SECONDS=900
 
