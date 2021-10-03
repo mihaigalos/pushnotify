@@ -11,7 +11,11 @@ build platform="linux/arm64":
     #! /bin/bash
     platform_short=$(echo {{platform}} | cut -d '/' -f2)
     output={{tool}}_${platform_short}
-    docker buildx build --platform {{platform}} -t {{docker_image}}  --output "type=oci,dest=${output}.tar" src/ && gzip ${output}.tar
+    stdout=$(2>&1 docker buildx build --platform {{platform}} -t {{docker_image}}  --output "type=oci,dest=${output}.tar" src/ | tee /tmp/docker_build_{{tool}}.log 2>&1 && gzip ${output}.tar)
+    sha256=$(cat /tmp/docker_build_{{tool}}.log | grep exporting\ config | grep sha256: | cut -d':' -f2 | cut -c 1-12)
+    echo $sha256
+    docker load < ${output}.tar.gz
+    docker tag $sha256 {{docker_image}}
 
 # Install docker buildx and other goodies for multi arch deployment.
 setup:
