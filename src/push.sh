@@ -26,7 +26,6 @@ function main(){
     current_file=$0
     for handler in $(grep function $current_file | cut -d' ' -f2 | cut -d "(" -f1 | grep handler_);
     do
-       echo $handler
        log=${LOG_FILE_PREFIX}_${handler}
        touch ${log} && $handler ${log}
        cp ${log}_new ${log}
