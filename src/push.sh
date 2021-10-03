@@ -1,11 +1,11 @@
 #!/bin/bash
 
 CATAPUSH_TOKEN=$CATAPUSH_TOKEN
-LOG_FILE=/dev/shm/last_10_vpn_attempts.log
+LOG_FILE_PREFIX=/dev/shm/last_10_vpn_attempts.log
 RECIPIENT=$PHONE_NUMBER
 RUN_FREQUENCY_SECONDS=900
 
-function send_notification(){
+function pushnotify(){
     message=$@
     curl --request POST \
       --url https://api.catapush.com/1/messages \
@@ -15,24 +15,21 @@ function send_notification(){
       --data '{"mobileAppId":318,"text":"'"$message"'","recipients":[{"identifier":"'"$RECIPIENT"'"}]}'
 }
 
-function handle_new_vpn_connections_detected(){
-    diff=$@
-    message=$(echo "$(hostname): New VPN connections detected. $(echo $diff | cut -d ' ' -f 8-9)")
-    send_notification $message
+function handler_vpn(){
+    log=$1
+    sudo journalctl --boot --lines=all | grep "ovpn-server[[]" | grep "Peer Connection Initiated" | tail -10 > ${log}_new
+    diff=$(diff ${log} ${log}_new)
+    [ $(echo $diff | wc -w) -gt 0 ] && pushnotify $(echo "$(hostname): New VPN connect: $(echo $diff | cut -d ' ' -f 8-9)") || echo "No new VPN connections."
 }
-
-function get_last_unique_vpn_connections(){
-    sudo journalctl --boot --lines=all | grep "ovpn-server[[]" | grep "Peer Connection Initiated" | tail -10 > ${LOG_FILE}_new
-}
-
 
 function main(){
-    touch $LOG_FILE
-    get_last_unique_vpn_connections
-    diff=$(diff ${LOG_FILE} ${LOG_FILE}_new)
-    [ $(echo $diff | wc -w) -gt 0 ] && handle_new_vpn_connections_detected $diff || echo "No new VPN connections."
-    cp ${LOG_FILE}_new ${LOG_FILE}
-    sleep $RUN_FREQUENCY_SECONDS
+    for handler in handler_vpn; # extend with further handlers as needed
+    do
+        log=${LOG_FILE_PREFIX}_${handler}
+        touch ${log} && $handler ${log}
+        cp ${log}_new ${log}
+    done
+    sleep $RUN_FREQUENCY_SECONDS # Poor man's cron, since :ro on journal files and cron cannot write
 }
 
-while :; do main; done # Poor man's cron, since :ro on journal files and cron cannot write
+while :; do main; done
