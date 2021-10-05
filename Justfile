@@ -35,7 +35,7 @@ setup:
     docker buildx inspect --bootstrap
 
 # run a docker with access to journalctl entries
-run docker_compose_args="--rm":
+run +docker_compose_args="--rm":
     #!/bin/bash
 
     sed -e "s|{{{{image}}|{{docker_image}}|" src/docker-compose.yaml_template > src/docker-compose.yaml
